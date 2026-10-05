@@ -1,0 +1,375 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>J277 Component 1 Flashcards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: study tool. Topic rail on top, one card centre stage, progress report as a separate printable sheet. */
+:root{
+  --bg:#ffffff; --surface:#ffffff; --ink:#37352f; --muted:#787774; --line:#e9e9e7;
+  --accent:#2383e2; --accent-ink:#ffffff; --good:#448361; --good-bg:#edf3ec; --bad:#c4554d; --bad-bg:#fdebec; --unseen:#e9e9e7; --chip:#f1f1ef;
+  --f-sans:"Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono:"IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --f-display:var(--f-serif); --f-body:var(--f-serif);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font-family:var(--f-display);font-weight:700;font-size:2rem;line-height:1.15;margin:0;text-wrap:balance}
+.eyebrow{font-size:.8rem;font-weight:500;color:var(--muted)}
+.name{display:flex;flex-direction:column;gap:4px;min-width:0}
+.name label{font-size:.8rem;color:var(--muted)}
+input[type=text]{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);width:220px;max-width:100%}
+button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button:disabled{opacity:.45;cursor:default}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 12px;min-width:0;text-align:left}
+.tab .code{font-size:.9rem;font-weight:600}
+.tab .mini{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.tab[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tab[aria-pressed=true] .mini{color:var(--accent-ink);opacity:.85}
+.tab.report{margin-left:auto}
+.topicbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px}
+.topicbar h2{font-family:var(--f-display);font-weight:600;font-size:1.25rem;margin:0}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--unseen)}
+.bar span{display:block;height:100%}
+.bar .g{background:var(--good)} .bar .b{background:var(--bad)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px 24px;min-height:260px;display:flex;flex-direction:column;gap:18px}
+.card .meta{display:flex;justify-content:space-between;gap:8px;font-size:.75rem;color:var(--muted)}
+.q{font-size:1.3rem;font-weight:700;line-height:1.35;margin:0;text-wrap:pretty}
+.a{border-top:1px dashed var(--line);padding-top:16px;font-size:1.05rem;white-space:pre-line}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;padding:10px 18px}
+.yes{background:var(--good-bg);color:var(--good);border-color:var(--good);font-weight:700;padding:10px 18px}
+.no{background:var(--bad-bg);color:var(--bad);border-color:var(--bad);font-weight:700;padding:10px 18px}
+.subtle{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.done{text-align:center;gap:12px;justify-content:center;align-items:center}
+.done p{margin:0;max-width:46ch}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.9rem}
+/* report */
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:18px}
+.sheet-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.sheet-head .who{font-family:var(--f-display);font-weight:700;font-size:1.4rem}
+.overall{display:flex;flex-wrap:wrap;gap:20px}
+.stat{display:flex;flex-direction:column}
+.stat b{font-family:var(--f-display);font-weight:700;font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1}
+.stat span{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+td.num{text-align:right}
+.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.75rem;font-weight:700;white-space:nowrap}
+.pill.ok{background:var(--good-bg);color:var(--good)} .pill.mid{background:var(--chip);color:var(--ink)} .pill.low{background:var(--bad-bg);color:var(--bad)} .pill.none{background:var(--chip);color:var(--muted)}
+.struggle h3{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:0 0 6px}
+.struggle ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.struggle .x{font-weight:600;color:var(--bad);font-size:.8rem;margin-left:6px}
+.note{font-size:.85rem;color:var(--muted);margin:0}
+.howto{background:var(--chip);border-radius:8px;padding:12px 14px;font-size:.9rem}
+.howto ol{margin:4px 0 0;padding-left:20px}
+@media (max-width:520px){.tab.report{margin-left:0}.q{font-size:1.15rem}.card{padding:22px 16px}}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .2s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">OCR GCSE Computer Science J277 · Component 01</div>
+      <h1>Computer Systems flashcards</h1>
+    </div>
+    <div class="name">
+      <label for="student">Your name and class</label>
+      <input type="text" id="student" placeholder="e.g. Sam Jones 10X" autocomplete="off">
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="Topics"></nav>
+  <main id="main"></main>
+</div>
+
+<script>
+const TOPICS = [
+ {id:"1.1", name:"Systems architecture", cards:[
+  ["What is the purpose of the CPU?","To process data and instructions by repeatedly carrying out the fetch-execute cycle."],
+  ["Name the three stages of the CPU cycle.","Fetch, decode, execute."],
+  ["What is the role of the ALU?","The Arithmetic Logic Unit carries out arithmetic calculations (e.g. add, subtract) and logical operations (e.g. AND, OR, comparisons)."],
+  ["What is the role of the Control Unit (CU)?","It decodes instructions and sends control signals to coordinate the other parts of the CPU and the flow of data. It manages the fetch-execute cycle."],
+  ["What is cache?","Very fast memory inside or very close to the CPU that stores frequently used data and instructions so they can be accessed more quickly than from RAM."],
+  ["What does the Program Counter (PC) hold?","The memory address of the next instruction to be fetched."],
+  ["What does the MAR hold?","The Memory Address Register holds the address in memory of the data or instruction about to be fetched or written to."],
+  ["What does the MDR hold?","The Memory Data Register holds the data or instruction that has been fetched from memory, or is about to be written to memory."],
+  ["What does the Accumulator hold?","The results of calculations carried out by the ALU."],
+  ["Describe the FETCH stage.","The address in the PC is copied to the MAR. The PC is incremented. The instruction at that address is fetched from memory and stored in the MDR."],
+  ["What happens in the DECODE stage?","The Control Unit decodes the instruction in the MDR to work out what needs to be done."],
+  ["What happens in the EXECUTE stage?","The instruction is carried out, e.g. the ALU performs a calculation and stores the result in the accumulator, or data is loaded/stored."],
+  ["What is the key idea of Von Neumann architecture?","Data and instructions are both stored in the same memory, and are fetched and executed one at a time by the CPU."],
+  ["What is clock speed and how is it measured?","The number of fetch-execute cycles the CPU can carry out per second. Measured in hertz (Hz), e.g. 3.5 GHz = 3.5 billion cycles per second."],
+  ["How does a higher clock speed affect performance?","More instructions can be processed per second, so performance usually improves."],
+  ["How does cache size affect performance?","More cache means more data/instructions can be stored close to the CPU, so fewer slower fetches from RAM are needed."],
+  ["How does the number of cores affect performance?","Each core can process instructions independently, so more cores can process more instructions at the same time."],
+  ["Why does doubling the number of cores not always double performance?","Some programs are not written to use multiple cores, and some tasks depend on the result of the previous task so cannot be split up."],
+  ["What is an embedded system?","A computer system built into a larger device, designed to carry out a dedicated function."],
+  ["Give three examples of embedded systems.","Any three, e.g. washing machine, microwave, central heating controller, car engine management system, digital watch, MP3 player."],
+  ["Give two typical characteristics of embedded systems.","Any two: dedicated to one task, small in size, low power consumption, cheap to make, very reliable, usually software stored in ROM/firmware."],
+  ["Compare cache and RAM.","Cache is faster but smaller and more expensive. RAM is larger and cheaper but slower to access."]
+ ]},
+ {id:"1.2", name:"Memory and storage", cards:[
+  ["Why do computers need primary storage?","To hold the data and instructions that the CPU is currently using, so they can be accessed quickly."],
+  ["What is RAM used for?","Holding the operating system, programs and data currently in use."],
+  ["Is RAM volatile or non-volatile? What does that mean?","Volatile: its contents are lost when the power is turned off."],
+  ["What is ROM used for?","Storing the boot-up instructions (BIOS / bootstrap) that start the computer when it is turned on."],
+  ["Give two differences between RAM and ROM.","RAM is volatile, ROM is non-volatile. RAM can be read from and written to, ROM is read-only. RAM holds programs in use, ROM holds start-up instructions."],
+  ["What is virtual memory?","Part of secondary storage used as if it were RAM when RAM is full."],
+  ["Why is virtual memory needed?","So that the computer can keep running more programs than will fit in RAM, instead of crashing or refusing to open programs."],
+  ["What is the downside of virtual memory?","Secondary storage is much slower than RAM, so the computer slows down when it relies on virtual memory."],
+  ["Why do computers need secondary storage?","To store data, programs and the operating system permanently (non-volatile) when the power is off."],
+  ["Name the three types of secondary storage.","Optical, magnetic, solid state."],
+  ["Give an example of each type of secondary storage.","Optical: CD, DVD, Blu-ray. Magnetic: hard disk drive (HDD), magnetic tape. Solid state: SSD, USB flash drive, SD card."],
+  ["Name the six characteristics used to compare storage.","Capacity, speed, portability, durability, reliability, cost."],
+  ["Compare an SSD with an HDD.","SSD: faster, more durable (no moving parts), quieter, but higher cost per GB. HDD: cheaper per GB and large capacity, but slower and can be damaged by knocks."],
+  ["Why must data be stored in binary?","Computers are made of switches (transistors) that have two states, on and off, represented by 1 and 0."],
+  ["Put these in order of size: bit, byte, nibble, KB, MB, GB, TB, PB.","bit < nibble (4 bits) < byte (8 bits) < KB < MB < GB < TB < PB. Each unit from KB upwards is 1000 times the previous."],
+  ["Convert denary 201 to 8-bit binary.","11001001 (128 + 64 + 8 + 1)."],
+  ["Convert binary 01101110 to denary.","110 (64 + 32 + 8 + 4 + 2)."],
+  ["Convert hexadecimal 3F to denary.","63 (3 x 16 + 15)."],
+  ["Convert binary 10110100 to hexadecimal.","B4 (1011 = B, 0100 = 4)."],
+  ["Add the binary numbers 01011011 + 00110110. When does overflow happen?","10010001. Overflow happens when the result needs more than 8 bits (a carry out of the most significant bit)."],
+  ["What does a binary shift do?","Shifting left by 1 multiplies by 2; shifting right by 1 divides by 2 (losing any remainder)."],
+  ["What is a character set? Compare ASCII and Unicode.","A character set gives each character a unique binary code. ASCII uses 7 bits (128 characters, English only). Unicode uses more bits, so it can represent many more characters and languages, including emoji, but files are larger."],
+  ["How is a bitmap image stored?","As a grid of pixels. Each pixel is given a binary code that represents its colour. Metadata stores information such as width, height and colour depth."],
+  ["How do resolution and colour depth affect an image?","Higher resolution (more pixels) or higher colour depth (more bits per pixel) gives better quality but a larger file size."],
+  ["What affects the quality and size of a sound file?","Sample rate (samples per second), bit depth (bits per sample) and duration. Higher values give better quality and a bigger file."],
+  ["Compare lossy and lossless compression.","Lossy permanently removes some data, gives smaller files, e.g. JPEG, MP3. Lossless keeps all data so the original can be restored exactly, but files are larger, e.g. PNG, ZIP. Use lossless for text and programs."]
+ ]},
+ {id:"1.3", name:"Networks, connections and protocols", cards:[
+  ["What is a LAN?","A Local Area Network covers a small geographical area (e.g. one building) and the hardware is usually owned by the organisation."],
+  ["What is a WAN?","A Wide Area Network covers a large geographical area, connecting LANs together. It usually uses infrastructure owned by third parties. The Internet is the largest WAN."],
+  ["Name four factors that affect network performance.","Any four: bandwidth, number of users, transmission media, error rate, latency, type of connection (wired/wireless), interference."],
+  ["Describe the client-server model.","Clients request services (files, web pages) from a central server. The server manages security, backups and file storage."],
+  ["Describe the peer-to-peer model.","All computers have equal status and share files directly with each other, with no central server."],
+  ["Give one advantage and one disadvantage of client-server.","Advantage: central backups and security. Disadvantage: expensive and if the server fails, clients lose access."],
+  ["What does a WAP do?","A Wireless Access Point allows devices to connect to a wired network wirelessly."],
+  ["What does a switch do?","Connects devices on a LAN and sends data only to the device it is addressed to, using MAC addresses."],
+  ["What does a router do?","Sends data packets between different networks, e.g. from a LAN to the Internet, using IP addresses."],
+  ["What is a NIC?","A Network Interface Controller/Card. Hardware that allows a device to connect to a network. Each has a unique MAC address."],
+  ["Name three types of transmission media.","Ethernet (copper) cable, fibre optic cable, wireless (radio waves)."],
+  ["What is the Internet?","A worldwide collection of interconnected computer networks."],
+  ["What is DNS and how does it work?","Domain Name System. It translates a URL/domain name into an IP address. The browser asks a DNS server, which returns the IP address so the browser can contact the web server."],
+  ["What is hosting?","Storing websites or files on a server connected to the Internet so others can access them."],
+  ["What is the cloud? Give one advantage and one disadvantage.","Remote services and storage accessed over the Internet. Advantage: access from anywhere / no need to buy hardware. Disadvantage: needs an Internet connection / data held by a third party."],
+  ["Name the two network topologies in the specification.","Star and mesh."],
+  ["Describe a star topology.","All devices connect to a central switch. If one cable fails, only that device is affected, but if the switch fails the whole network fails."],
+  ["Describe a mesh topology.","Devices connect to each other with multiple paths. Very reliable as data can take another route, but it is expensive due to the amount of cabling."],
+  ["Compare wired and wireless connections.","Wired: faster, more reliable and more secure. Wireless: more convenient and mobile, but slower, has interference and less secure."],
+  ["Compare Wi-Fi and Bluetooth.","Wi-Fi: longer range and higher bandwidth, used for networks/Internet. Bluetooth: short range and lower bandwidth, used to connect nearby devices (e.g. headphones)."],
+  ["What is encryption?","Scrambling data using a key so that it cannot be understood if intercepted."],
+  ["Compare an IP address with a MAC address.","IP address: assigned by the network, can change, used to route data between networks (IPv4 32-bit, IPv6 128-bit). MAC address: fixed to the NIC, unique, used within a LAN, written in hexadecimal (48-bit)."],
+  ["What is a protocol? What is a standard?","A protocol is a set of rules for how data is transmitted. A standard is an agreed set of rules so that hardware and software from different makers work together."],
+  ["State the purpose of: TCP/IP, HTTP, HTTPS, FTP.","TCP/IP: splits data into packets, routes and reassembles them. HTTP: transfers web pages. HTTPS: secure, encrypted version of HTTP. FTP: transfers files between computers."],
+  ["State the purpose of: POP, IMAP, SMTP.","POP: downloads email from a server to one device and usually deletes it from the server. IMAP: keeps email on the server and syncs it across devices. SMTP: sends email."],
+  ["What is layering and why is it used?","Protocols are divided into layers, each with a specific job. Each layer can be changed or developed without affecting the others, and it makes troubleshooting easier."]
+ ]},
+ {id:"1.4", name:"Network security", cards:[
+  ["What is malware?","Malicious software designed to harm a computer system or steal data, e.g. viruses, worms, trojans, ransomware, spyware."],
+  ["What is ransomware?","Malware that encrypts a user's files and demands payment for the key to unlock them."],
+  ["What is social engineering?","Manipulating people into giving away confidential information or access. People are often the weak point in security."],
+  ["What is phishing?","Fake emails or messages, appearing to be from a trusted organisation, that trick users into giving personal details or clicking malicious links."],
+  ["What is pretexting (blagging)?","Inventing a believable scenario to persuade someone to give out information, e.g. phoning while pretending to be IT support."],
+  ["What is shouldering?","Watching someone enter sensitive information, such as a PIN or password, by looking over their shoulder."],
+  ["What is a brute-force attack?","Trying every possible password combination until the correct one is found, often using automated software."],
+  ["What is a denial of service (DoS) attack?","Flooding a server with requests so that it cannot respond to genuine users, making the service unavailable."],
+  ["What is data interception and theft?","Data is captured as it travels across a network (e.g. using packet sniffers) and is read or stolen."],
+  ["What is SQL injection?","Entering SQL code into an input box on a website, so the database runs it, allowing an attacker to view, change or delete data."],
+  ["Give one way to prevent brute-force attacks.","Strong passwords, and locking the account after a set number of failed login attempts. CAPTCHA also helps."],
+  ["Give one way to prevent SQL injection.","Input validation/sanitisation and using parameterised queries. Limit database user permissions."],
+  ["What is penetration testing?","Authorised, simulated attacks on a system to find weaknesses so they can be fixed before real attackers find them."],
+  ["How does anti-malware software protect a system?","It scans files and compares them against a database of known malware signatures, then quarantines or deletes any threats found."],
+  ["What does a firewall do?","Monitors incoming and outgoing network traffic and blocks traffic that does not meet a set of security rules."],
+  ["What are user access levels?","Different users are given different permissions, so they can only access or change the data they need. This limits damage from mistakes or attacks."],
+  ["How do passwords protect a system?","They authenticate users so only authorised people can log in. Strong passwords are long and mix letters, numbers and symbols."],
+  ["How does encryption protect data?","Data is scrambled using a key, so if it is intercepted it cannot be understood without the key."],
+  ["What is physical security? Give two examples.","Protecting the hardware from physical access. Examples: locked server rooms, keycards, CCTV, security guards, biometric locks."],
+  ["Which prevention method best reduces the risk of phishing?","Staff training/education about how to spot suspicious emails, plus email filtering software."],
+  ["Which threat does encryption help against most?","Data interception and theft."],
+  ["Which threat does a firewall help against?","Unauthorised access and some malware or DoS traffic, by blocking suspicious traffic."]
+ ]},
+ {id:"1.5", name:"Systems software", cards:[
+  ["What is an operating system?","System software that manages the computer's hardware and software and provides a platform for applications to run."],
+  ["List the five functions of an operating system in the specification.","User interface, memory management and multitasking, peripheral management and drivers, user management, file management."],
+  ["Name two types of user interface.","Any two: graphical user interface (GUI), command line interface (CLI), menu-driven, natural language/voice."],
+  ["Give one advantage of a GUI and one of a CLI.","GUI: easy to learn and use for beginners. CLI: uses fewer resources and is faster for expert users, allows scripting."],
+  ["Describe memory management.","The OS moves programs and data into and out of RAM, allocates memory to each program, and keeps programs separate so they do not overwrite each other."],
+  ["What is multitasking?","Running more than one program at the same time. The OS shares CPU time between programs so they appear to run simultaneously."],
+  ["What is a device driver?","Software that allows the operating system to communicate with a specific piece of hardware (peripheral)."],
+  ["Describe peripheral management.","The OS manages input and output devices, using drivers to send and receive data, and handles buffering of data to and from devices."],
+  ["Describe user management.","The OS controls user accounts, logins and passwords, and sets access rights so users can only access permitted files and settings."],
+  ["Describe file management.","The OS organises files into folders, allows files to be named, moved, copied, deleted and saved, and controls access permissions."],
+  ["What is utility software?","System software that helps to maintain, configure or protect the computer."],
+  ["What does encryption software do?","Scrambles data using a key so it cannot be read without being decrypted, protecting it if stolen or intercepted."],
+  ["What is fragmentation?","Over time, parts of a file are stored in different, non-adjacent places on a hard disk, so the read head has to move more and access is slower."],
+  ["What does defragmentation software do?","Reorganises a hard disk so that parts of each file are stored together and free space is grouped, making file access faster."],
+  ["Why should an SSD not be defragmented?","SSDs have no moving parts so access time is not affected, and extra writes reduce the lifespan of the SSD."],
+  ["What does data compression software do?","Reduces the size of files so they take up less storage and are quicker to transmit."],
+  ["What is a full backup?","A copy of all files is made each time a backup is carried out."],
+  ["What is an incremental backup?","Only files that have changed since the last backup are copied. Quicker and uses less storage, but restoring takes longer as all backups are needed."],
+  ["Why is backup software important?","If data is lost, corrupted or encrypted by ransomware, it can be restored from the backup."],
+  ["Is anti-malware utility software? Why?","Yes. It is system software that helps protect and maintain the computer, rather than doing a user task."]
+ ]},
+ {id:"1.6", name:"Ethical, legal, cultural and environmental impact", cards:[
+  ["Which four impact areas must you consider in 1.6?","Ethical, legal, cultural, environmental (also privacy issues)."],
+  ["What is an ethical issue? Give an example.","A question about what is right or wrong. Example: replacing workers with automation, or AI making decisions about people."],
+  ["What is a cultural issue? Give an example.","How technology changes the way people live and behave. Example: the digital divide, or people spending less time socialising face to face."],
+  ["What is the digital divide?","The gap between people who have access to digital technology and the Internet and those who do not, e.g. due to cost, age or location."],
+  ["Give two environmental negatives of technology.","Any two: e-waste and toxic materials in landfill, energy use of data centres, mining of rare metals, short replacement cycles."],
+  ["Give two environmental positives of technology.","Any two: smart devices reduce energy use, video calls reduce travel, less paper used, monitoring of climate and wildlife."],
+  ["Give two privacy issues linked to technology.","Any two: companies collecting and selling personal data, CCTV and tracking, location data on phones, personal data leaked in hacks."],
+  ["Name the four pieces of legislation in J277.","Data Protection Act 2018, Computer Misuse Act 1990, Copyright Designs and Patents Act 1988, software licences (open source and proprietary)."],
+  ["What is the purpose of the Data Protection Act 2018?","To control how organisations collect, store and use personal data. It is the UK's version of GDPR."],
+  ["State three principles of the Data Protection Act.","Data must be: used fairly, lawfully and transparently; used for specified purposes; adequate and relevant (only what is needed); accurate and up to date; kept no longer than needed; kept secure."],
+  ["What rights does the Data Protection Act give individuals?","Any, e.g. the right to see the data held about them, to have it corrected, to have it deleted, and to object to its use."],
+  ["What is the purpose of the Computer Misuse Act 1990?","To make hacking and spreading malware illegal."],
+  ["State the three offences of the Computer Misuse Act.","1. Unauthorised access to computer material. 2. Unauthorised access with intent to commit further offences. 3. Unauthorised acts that impair the operation of a computer (e.g. spreading malware, DoS)."],
+  ["What is the purpose of the Copyright Designs and Patents Act 1988?","To protect people's original work (music, films, software, images, writing) from being copied or used without permission."],
+  ["Give two examples of breaking the Copyright Act.","Any two: illegally downloading music or films, copying software without a licence, using images from the web without permission, sharing pirated software."],
+  ["What is open source software?","Software where the source code is freely available for users to view, change and share."],
+  ["What is proprietary software?","Software where the source code is kept secret by the company. Users buy a licence to use it but cannot modify or share it."],
+  ["Give one advantage and one disadvantage of open source software.","Advantage: usually free and can be customised. Disadvantage: may have less official support and may be less tested."],
+  ["Give one advantage and one disadvantage of proprietary software.","Advantage: usually well tested with official support and updates. Disadvantage: costs money and cannot be modified."],
+  ["Who are stakeholders? Why do they matter in an impact question?","People affected by a technology, e.g. users, employees, companies, the public. Exam answers should consider how different stakeholders are affected."],
+  ["What is e-waste and why is it a problem?","Discarded electronic devices. They contain toxic materials (e.g. lead, mercury) that can pollute land and water, and often end up shipped to developing countries."]
+ ]}
+];
+
+const KEY="j277c1-v1";
+let state={name:"",p:{}};
+let view="1.1", queue=[], showing=false, undo=[], confirmReset=false;
+
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.p)state=s;}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+const cid=(t,i)=>t+"-"+i;
+const topic=id=>TOPICS.find(t=>t.id===id);
+
+function stats(t){
+  let r=0,n=0,u=0,miss=0;
+  t.cards.forEach((c,i)=>{const s=state.p[cid(t.id,i)];if(!s||!s.s)u++;else if(s.s==="r")r++;else n++;if(s)miss+=s.m||0;});
+  return {total:t.cards.length,r,n,u,miss};
+}
+function buildQueue(){
+  const t=topic(view);const unseen=[],again=[];
+  t.cards.forEach((c,i)=>{const s=state.p[cid(t.id,i)];if(!s||!s.s)unseen.push(i);else if(s.s==="n")again.push(i);});
+  queue=unseen.concat(again);showing=false;
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function renderTabs(){
+  const el=document.getElementById("tabs");
+  el.innerHTML=TOPICS.map(t=>{const s=stats(t);return `<button class="tab" data-v="${t.id}" aria-pressed="${view===t.id}"><span class="code">${t.id}</span><span class="mini">${s.r}/${s.total}</span></button>`}).join("")+
+   `<button class="tab report" data-v="report" aria-pressed="${view==="report"}"><span class="code">My progress</span><span class="mini">for Teams</span></button>`;
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{view=b.dataset.v;undo=[];confirmReset=false;if(view!=="report")buildQueue();render();});
+}
+
+function barHTML(s){const g=s.r/s.total*100,b=s.n/s.total*100;return `<div class="bar" role="img" aria-label="${s.r} remembered, ${s.n} not yet, ${s.u} not seen"><span class="g" style="width:${g}%"></span><span class="b" style="width:${b}%"></span></div>`;}
+
+function renderStudy(){
+  const t=topic(view),s=stats(t),main=document.getElementById("main");
+  let card;
+  if(queue.length===0){
+    card=`<div class="card done"><div class="q">All ${t.id} cards remembered</div><p>Choose another topic, or open <b>My progress</b> to screenshot your sheet for Teams.</p></div>`;
+  }else{
+    const i=queue[0],c=t.cards[i],st=state.p[cid(t.id,i)];
+    card=`<div class="card">
+      <div class="meta"><span>${t.id} · Card ${i+1} of ${t.cards.length}</span><span>${st&&st.m?"Not yet x"+st.m:"New"}</span></div>
+      <p class="q">${esc(c[0])}</p>
+      ${showing?`<div class="a">${esc(c[1])}</div>`:`<p class="hint">Write your answer in your book first, then check it.</p>`}
+      <div class="actions">${showing
+        ?`<button class="yes" id="yes">I remembered it</button><button class="no" id="no">Not yet</button>`
+        :`<button class="primary" id="show">Show answer</button>`}</div>
+    </div>`;
+  }
+  main.innerHTML=`<section style="display:flex;flex-direction:column;gap:14px">
+    <div class="topicbar"><h2>${t.id} ${esc(t.name)}</h2><span class="count">${s.r} remembered · ${s.n} not yet · ${s.u} new</span></div>
+    ${barHTML(s)}
+    ${card}
+    <div class="subtle">
+      <button id="undo" ${undo.length?"":"disabled"}>Undo last</button>
+      ${confirmReset?`<span class="confirm">Clear all ${t.id} progress? <button class="no" id="rsYes">Yes, clear</button><button id="rsNo">Cancel</button></span>`:`<button id="reset">Restart ${t.id}</button>`}
+    </div>
+  </section>`;
+  const $=id=>document.getElementById(id);
+  if($("show"))$("show").onclick=()=>{showing=true;render();};
+  if($("yes"))$("yes").onclick=()=>mark("r");
+  if($("no"))$("no").onclick=()=>mark("n");
+  $("undo").onclick=doUndo;
+  if($("reset"))$("reset").onclick=()=>{confirmReset=true;render();};
+  if($("rsNo"))$("rsNo").onclick=()=>{confirmReset=false;render();};
+  if($("rsYes"))$("rsYes").onclick=()=>{t.cards.forEach((c,i)=>delete state.p[cid(t.id,i)]);save();confirmReset=false;undo=[];buildQueue();render();};
+}
+
+function mark(v){
+  const i=queue[0],k=cid(view,i),prev=state.p[k]?{...state.p[k]}:null;
+  undo.push({k,prev,queue:queue.slice()});
+  const cur=state.p[k]||{m:0};
+  cur.s=v;if(v==="n")cur.m=(cur.m||0)+1;
+  state.p[k]=cur;
+  queue.shift();if(v==="n")queue.push(i);
+  showing=false;save();render();
+}
+function doUndo(){
+  const u=undo.pop();if(!u)return;
+  if(u.prev)state.p[u.k]=u.prev;else delete state.p[u.k];
+  queue=u.queue;showing=true;save();render();
+}
+
+function level(s){
+  if(s.r+s.n===0)return `<span class="pill none">Not started</span>`;
+  const pct=s.r/s.total;
+  if(pct>=.8)return `<span class="pill ok">Secure</span>`;
+  if(pct>=.5)return `<span class="pill mid">Developing</span>`;
+  return `<span class="pill low">Needs work</span>`;
+}
+function renderReport(){
+  const main=document.getElementById("main");
+  let T={total:0,r:0,n:0,u:0,miss:0};
+  const rows=TOPICS.map(t=>{const s=stats(t);for(const k in T)T[k]+=s[k];
+    return `<tr><td><b>${t.id}</b> ${esc(t.name)}</td><td style="min-width:110px">${barHTML(s)}</td><td class="num">${s.r}/${s.total}</td><td class="num">${s.n}</td><td class="num">${s.u}</td><td>${level(s)}</td></tr>`}).join("");
+  const hard=[];
+  TOPICS.forEach(t=>t.cards.forEach((c,i)=>{const s=state.p[cid(t.id,i)];if(s&&s.m)hard.push({t:t.id,q:c[0],m:s.m,still:s.s==="n"});}));
+  hard.sort((a,b)=>(b.still-a.still)||(b.m-a.m));
+  const top=hard.slice(0,12);
+  const d=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  main.innerHTML=`<section style="display:flex;flex-direction:column;gap:14px">
+   <div class="howto"><b>Handing in:</b><ol><li>Check your name and class are filled in at the top.</li><li>Take a screenshot of the sheet below (Windows: Win + Shift + S, Mac: Cmd + Shift + 4, Chromebook: Ctrl + Shift + Show windows).</li><li>Upload the screenshot to the Teams assignment.</li></ol></div>
+   <div class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">J277 Component 01 progress</div><div class="who">${esc(state.name||"Name not entered")}</div></div><div class="eyebrow" style="align-self:flex-end">${d}</div></div>
+    <div class="overall">
+      <div class="stat"><b>${Math.round(T.r/T.total*100)}%</b><span>Remembered</span></div>
+      <div class="stat"><b>${T.r}</b><span>of ${T.total} cards</span></div>
+      <div class="stat"><b>${T.n}</b><span>Still not yet</span></div>
+      <div class="stat"><b>${T.miss}</b><span>Total "not yet" taps</span></div>
+    </div>
+    <div class="tbl"><table><thead><tr><th>Topic</th><th>Progress</th><th class="num">Remembered</th><th class="num">Not yet</th><th class="num">Not seen</th><th>Level</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="struggle"><h3>Cards I found hardest</h3>${top.length?`<ol>${top.map(h=>`<li><b>${h.t}</b> ${esc(h.q)}<span class="x">x${h.m}${h.still?" · still learning":""}</span></li>`).join("")}</ol>`:`<p class="note">No cards marked "not yet" so far.</p>`}</div>
+    <p class="note">Secure: 80% or more remembered. Developing: 50 to 79%. Needs work: under 50%. "xN" is how many times a card was marked not yet.</p>
+   </div></section>`;
+}
+
+function render(){renderTabs();view==="report"?renderReport():renderStudy();}
+
+load();
+const nm=document.getElementById("student");
+nm.value=state.name||"";
+nm.addEventListener("input",()=>{state.name=nm.value.trim();save();});
+buildQueue();render();
+document.addEventListener("keydown",e=>{
+  if(view==="report"||e.target.tagName==="INPUT")return;
+  if(e.key===" "&&!showing&&queue.length){e.preventDefault();showing=true;render();}
+  else if(showing&&(e.key==="1"||e.key==="ArrowRight"))mark("r");
+  else if(showing&&(e.key==="2"||e.key==="ArrowLeft"))mark("n");
+});
+</script>
+
+</body></html>
