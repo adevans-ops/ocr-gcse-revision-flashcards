@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>J277 Component 1 Flashcards</title>
+<title>J277 Flashcards</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
 <style>
 /* Layout: study tool. Topic rail on top, one card centre stage, progress report as a separate printable sheet. */
@@ -24,13 +24,16 @@ input[type=text]{font:inherit;padding:8px 10px;border:1px solid var(--line);bord
 button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px}
 button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 button:disabled{opacity:.45;cursor:default}
-.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tabs{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.group{display:flex;flex-direction:column;gap:6px;min-width:0}
+.glabel{font-size:.8rem;color:var(--muted)}
+.tabs-row{display:flex;flex-wrap:wrap;gap:8px}
+.group.rep{margin-left:auto}
 .tab{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 12px;min-width:0;text-align:left}
 .tab .code{font-size:.9rem;font-weight:600}
 .tab .mini{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .tab[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .tab[aria-pressed=true] .mini{color:var(--accent-ink);opacity:.85}
-.tab.report{margin-left:auto}
 .topicbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px}
 .topicbar h2{font-family:var(--f-display);font-weight:600;font-size:1.25rem;margin:0}
 .count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -63,6 +66,7 @@ table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:t
 th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
 td.num{text-align:right}
+tr.grp td{font-weight:700;font-size:.82rem;color:var(--muted);padding-top:14px;border-bottom:1px solid var(--ink)}
 .pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.75rem;font-weight:700;white-space:nowrap}
 .pill.ok{background:var(--good-bg);color:var(--good)} .pill.mid{background:var(--chip);color:var(--ink)} .pill.low{background:var(--bad-bg);color:var(--bad)} .pill.none{background:var(--chip);color:var(--muted)}
 .struggle h3{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin:0 0 6px}
@@ -71,15 +75,15 @@ td.num{text-align:right}
 .note{font-size:.85rem;color:var(--muted);margin:0}
 .howto{background:var(--chip);border-radius:8px;padding:12px 14px;font-size:.9rem}
 .howto ol{margin:4px 0 0;padding-left:20px}
-@media (max-width:520px){.tab.report{margin-left:0}.q{font-size:1.15rem}.card{padding:22px 16px}}
+@media (max-width:520px){.group.rep{margin-left:0}.q{font-size:1.15rem}.card{padding:22px 16px}}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .2s}}
 </style>
 
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">OCR GCSE Computer Science J277 · Component 01</div>
-      <h1>Computer Systems flashcards</h1>
+      <div class="eyebrow">OCR GCSE Computer Science J277 · Components 01 and 02</div>
+      <h1>Revision flashcards</h1>
     </div>
     <div class="name">
       <label for="student">Your name and class</label>
@@ -93,7 +97,7 @@ td.num{text-align:right}
 
 <script>
 const TOPICS = [
- {id:"1.1", name:"Systems architecture", cards:[
+ {id:"1.1", comp:1, name:"Systems architecture", cards:[
   ["What is the purpose of the CPU?","To process data and instructions by repeatedly carrying out the fetch-execute cycle."],
   ["Name the three stages of the CPU cycle.","Fetch, decode, execute."],
   ["What is the role of the ALU?","The Arithmetic Logic Unit carries out arithmetic calculations (e.g. add, subtract) and logical operations (e.g. AND, OR, comparisons)."],
@@ -117,7 +121,7 @@ const TOPICS = [
   ["Give two typical characteristics of embedded systems.","Any two: dedicated to one task, small in size, low power consumption, cheap to make, very reliable, usually software stored in ROM/firmware."],
   ["Compare cache and RAM.","Cache is faster but smaller and more expensive. RAM is larger and cheaper but slower to access."]
  ]},
- {id:"1.2", name:"Memory and storage", cards:[
+ {id:"1.2", comp:1, name:"Memory and storage", cards:[
   ["Why do computers need primary storage?","To hold the data and instructions that the CPU is currently using, so they can be accessed quickly."],
   ["What is RAM used for?","Holding the operating system, programs and data currently in use."],
   ["Is RAM volatile or non-volatile? What does that mean?","Volatile: its contents are lost when the power is turned off."],
@@ -145,7 +149,7 @@ const TOPICS = [
   ["What affects the quality and size of a sound file?","Sample rate (samples per second), bit depth (bits per sample) and duration. Higher values give better quality and a bigger file."],
   ["Compare lossy and lossless compression.","Lossy permanently removes some data, gives smaller files, e.g. JPEG, MP3. Lossless keeps all data so the original can be restored exactly, but files are larger, e.g. PNG, ZIP. Use lossless for text and programs."]
  ]},
- {id:"1.3", name:"Networks, connections and protocols", cards:[
+ {id:"1.3", comp:1, name:"Networks, connections and protocols", cards:[
   ["What is a LAN?","A Local Area Network covers a small geographical area (e.g. one building) and the hardware is usually owned by the organisation."],
   ["What is a WAN?","A Wide Area Network covers a large geographical area, connecting LANs together. It usually uses infrastructure owned by third parties. The Internet is the largest WAN."],
   ["Name four factors that affect network performance.","Any four: bandwidth, number of users, transmission media, error rate, latency, type of connection (wired/wireless), interference."],
@@ -173,7 +177,7 @@ const TOPICS = [
   ["State the purpose of: POP, IMAP, SMTP.","POP: downloads email from a server to one device and usually deletes it from the server. IMAP: keeps email on the server and syncs it across devices. SMTP: sends email."],
   ["What is layering and why is it used?","Protocols are divided into layers, each with a specific job. Each layer can be changed or developed without affecting the others, and it makes troubleshooting easier."]
  ]},
- {id:"1.4", name:"Network security", cards:[
+ {id:"1.4", comp:1, name:"Network security", cards:[
   ["What is malware?","Malicious software designed to harm a computer system or steal data, e.g. viruses, worms, trojans, ransomware, spyware."],
   ["What is ransomware?","Malware that encrypts a user's files and demands payment for the key to unlock them."],
   ["What is social engineering?","Manipulating people into giving away confidential information or access. People are often the weak point in security."],
@@ -197,7 +201,7 @@ const TOPICS = [
   ["Which threat does encryption help against most?","Data interception and theft."],
   ["Which threat does a firewall help against?","Unauthorised access and some malware or DoS traffic, by blocking suspicious traffic."]
  ]},
- {id:"1.5", name:"Systems software", cards:[
+ {id:"1.5", comp:1, name:"Systems software", cards:[
   ["What is an operating system?","System software that manages the computer's hardware and software and provides a platform for applications to run."],
   ["List the five functions of an operating system in the specification.","User interface, memory management and multitasking, peripheral management and drivers, user management, file management."],
   ["Name two types of user interface.","Any two: graphical user interface (GUI), command line interface (CLI), menu-driven, natural language/voice."],
@@ -219,7 +223,7 @@ const TOPICS = [
   ["Why is backup software important?","If data is lost, corrupted or encrypted by ransomware, it can be restored from the backup."],
   ["Is anti-malware utility software? Why?","Yes. It is system software that helps protect and maintain the computer, rather than doing a user task."]
  ]},
- {id:"1.6", name:"Ethical, legal, cultural and environmental impact", cards:[
+ {id:"1.6", comp:1, name:"Ethical, legal, cultural and environmental impact", cards:[
   ["Which four impact areas must you consider in 1.6?","Ethical, legal, cultural, environmental (also privacy issues)."],
   ["What is an ethical issue? Give an example.","A question about what is right or wrong. Example: replacing workers with automation, or AI making decisions about people."],
   ["What is a cultural issue? Give an example.","How technology changes the way people live and behave. Example: the digital divide, or people spending less time socialising face to face."],
@@ -241,10 +245,131 @@ const TOPICS = [
   ["Give one advantage and one disadvantage of proprietary software.","Advantage: usually well tested with official support and updates. Disadvantage: costs money and cannot be modified."],
   ["Who are stakeholders? Why do they matter in an impact question?","People affected by a technology, e.g. users, employees, companies, the public. Exam answers should consider how different stakeholders are affected."],
   ["What is e-waste and why is it a problem?","Discarded electronic devices. They contain toxic materials (e.g. lead, mercury) that can pollute land and water, and often end up shipped to developing countries."]
+ ]},
+ {id:"2.1", comp:2, name:"Algorithms", cards:[
+  ["What is computational thinking?","Approaching a problem using abstraction, decomposition and algorithmic thinking, so that a computer could help solve it."],
+  ["What is abstraction?","Removing unnecessary detail from a problem to focus on the important parts. Example: a tube map shows stations and lines but not exact distances."],
+  ["What is decomposition?","Breaking a complex problem down into smaller, more manageable sub-problems that can each be solved separately."],
+  ["What is algorithmic thinking?","Identifying the steps needed to solve a problem, in a logical order, so the solution can be followed or reused."],
+  ["What are the three parts of a problem you identify before designing an algorithm?","Inputs, processes and outputs."],
+  ["What is a structure diagram?","A diagram that shows how a problem is decomposed into smaller sub-sections, drawn as a hierarchy from the main problem downwards."],
+  ["What is pseudocode?","A way of writing an algorithm in structured, English-like statements that is not tied to any one programming language."],
+  ["What do these flowchart symbols mean: oval, parallelogram, rectangle, diamond?","Oval: start/end (terminal). Parallelogram: input/output. Rectangle: process. Diamond: decision."],
+  ["What is a syntax error?","An error that breaks the rules of the programming language, so the program cannot be translated or run, e.g. a missing bracket or misspelt keyword."],
+  ["What is a logic error?","An error where the program runs but gives an incorrect or unexpected result, e.g. using > instead of >=."],
+  ["What is a trace table used for?","To follow an algorithm step by step, recording the values of variables and outputs, to check what it does and find logic errors."],
+  ["What must be true before a binary search can be used?","The data must be sorted (in order)."],
+  ["Describe how a binary search works.","Find the middle item. If it is the target, stop. If the target is smaller, discard the middle item and the upper half; if larger, discard the middle item and the lower half. Repeat on the remaining half until found or no items remain."],
+  ["Describe how a linear search works.","Check each item in turn, starting from the first, until the target is found or the end of the list is reached."],
+  ["Compare linear and binary search.","Linear: works on unsorted data and is simple, but slow on large lists. Binary: much faster on large lists, but the data must be sorted first."],
+  ["Describe how a bubble sort works.","Compare each pair of adjacent items and swap them if they are in the wrong order. Repeat passes through the list until a pass is made with no swaps."],
+  ["Describe how a merge sort works.","Repeatedly split the list in half until each sub-list has one item. Then merge pairs of sub-lists back together in order until there is one sorted list."],
+  ["Describe how an insertion sort works.","Take each item in turn, starting from the second, and insert it into the correct position in the sorted part of the list to its left."],
+  ["Compare bubble sort and merge sort.","Bubble: simple to code and uses little memory, but very slow on large lists. Merge: much faster on large lists, but more complex and uses more memory."],
+  ["Show the first pass of a bubble sort on 5, 2, 4, 1.","Compare 5,2 swap: 2,5,4,1. Compare 5,4 swap: 2,4,5,1. Compare 5,1 swap: 2,4,1,5. The largest value is now at the end."],
+  ["Which sort is often efficient on a list that is already nearly sorted?","Insertion sort (and bubble sort stops early if a pass makes no swaps)."],
+  ["Why is identifying common errors and refining algorithms important?","Corrected and improved algorithms produce the right output, run more efficiently and are easier to maintain."]
+ ]},
+ {id:"2.2", comp:2, name:"Programming fundamentals", cards:[
+  ["What is a variable?","A named location in memory that stores a value which can change while the program runs."],
+  ["What is a constant? Why use one?","A named value that cannot change while the program runs. It makes code easier to read and update in one place, and stops the value being changed by accident."],
+  ["What is assignment?","Giving a variable or constant a value, e.g. score = 0."],
+  ["What are the three basic programming constructs?","Sequence, selection, iteration."],
+  ["What is sequence?","Instructions are carried out one after another, in order."],
+  ["What is selection? Give two ways to write it.","Choosing which code to run based on a condition. IF / ELSEIF / ELSE, and SWITCH / CASE."],
+  ["What is the difference between count-controlled and condition-controlled iteration?","Count-controlled repeats a set number of times (FOR loop). Condition-controlled repeats until or while a condition is met (WHILE, DO UNTIL)."],
+  ["What is the difference between a WHILE loop and a DO UNTIL loop?","WHILE checks the condition at the start, so it may run zero times. DO UNTIL checks at the end, so it always runs at least once."],
+  ["Name the five data types in J277.","Integer, real (float), Boolean, character, string."],
+  ["What data type would you use for: age, price, pass/fail, a postcode?","Age: integer. Price: real. Pass/fail: Boolean. Postcode: string."],
+  ["What is casting? Give an example.","Converting a value from one data type to another, e.g. int(\"42\") turns a string into an integer, str(7) turns an integer into a string."],
+  ["What do MOD and DIV do? Work out 17 MOD 5 and 17 DIV 5.","MOD gives the remainder: 17 MOD 5 = 2. DIV gives the whole-number quotient: 17 DIV 5 = 3."],
+  ["What does the ^ operator do? What is 2^3?","Exponentiation (to the power of). 2^3 = 8."],
+  ["List the comparison operators.","== equal to, != not equal to, < less than, <= less than or equal to, > greater than, >= greater than or equal to."],
+  ["Name the three Boolean operators used in programs.","AND, OR, NOT."],
+  ["If name = \"Computer\", what is name.length and name.substring(0,3)?","name.length = 8. name.substring(0,3) = \"Com\" (3 characters starting at position 0)."],
+  ["What are concatenation, .upper and .lower?","Concatenation joins strings with +. .upper converts to upper case, .lower to lower case."],
+  ["What are ASC() and CHR()?","ASC(\"A\") returns the ASCII code of a character (65). CHR(65) returns the character for a code (\"A\")."],
+  ["What are the steps for using a file in a program?","Open the file, read from or write to it, then close it. A new file can be created first if needed."],
+  ["What is an array?","A data structure that stores several items of the same data type under one name, accessed by an index starting at 0."],
+  ["What is a 2D array?","An array of arrays, like a table, accessed with two indexes, e.g. scores[2,1] for row 2, column 1."],
+  ["What is a record?","A data structure that groups related items (fields) together, which can be different data types, e.g. a student record with name, age and form."],
+  ["Write SQL to get the name and age of all students in 10X from table Students.","SELECT name, age FROM Students WHERE form = \"10X\""],
+  ["What does * mean in SELECT * FROM Pupils?","Select all fields (columns) from the table."],
+  ["What is the difference between a function and a procedure?","Both are sub programs. A function returns a value; a procedure does not return a value."],
+  ["Give two benefits of using sub programs.","Any two: code can be reused, programs are easier to read and test, avoids repeating code, different people can work on different parts, easier to maintain."],
+  ["What is the difference between a local and a global variable?","Local: only exists inside the sub program where it is declared. Global: can be used anywhere in the program."],
+  ["How do you generate a random number in OCR reference language?","random(1,6) returns a random integer from 1 to 6 inclusive."]
+ ]},
+ {id:"2.3", comp:2, name:"Producing robust programs", cards:[
+  ["What is defensive design?","Designing a program so that it keeps working correctly even when users enter unexpected data or misuse it."],
+  ["What is anticipating misuse?","Planning for how users might enter wrong data or use the program in unintended ways, and handling it, e.g. division by zero or too many login attempts."],
+  ["What is authentication?","Checking the identity of a user before allowing access, e.g. username and password."],
+  ["What is input validation?","Checking that input data is sensible and meets set rules before it is accepted. It does not check the data is correct."],
+  ["Name five types of validation check.","Range check, type check, presence check, length check, format check."],
+  ["Give an example of a range check and a presence check.","Range: age must be between 11 and 18. Presence: the name field must not be left empty."],
+  ["Give an example of a length check and a format check.","Length: password must be at least 8 characters. Format: a date must be in the form DD/MM/YYYY."],
+  ["Give three ways to make a program maintainable.","Comments, sensible variable and sub program names, indentation, use of sub programs, use of constants."],
+  ["Why are comments useful?","They explain what parts of the code do, making it easier for other programmers (or you later) to understand and update."],
+  ["What is the purpose of testing?","To make sure the program works as expected, has no errors and meets the requirements."],
+  ["What is iterative testing?","Testing each module or part of the program while it is being developed, and fixing errors as you go."],
+  ["What is final (terminal) testing?","Testing the whole program at the end of development to check all parts work together and it meets the requirements."],
+  ["What are the four types of test data?","Normal, boundary, invalid, erroneous."],
+  ["A program accepts whole numbers 1 to 100. Give normal, boundary, invalid and erroneous test data.","Normal: 50. Boundary: 1 and 100 (and 0, 101 just outside). Invalid: 150 (correct type but outside range). Erroneous: \"ten\" (wrong data type)."],
+  ["What is the difference between invalid and erroneous data?","Invalid data is the right data type but should be rejected (e.g. out of range). Erroneous data is the wrong data type altogether (e.g. text instead of a number)."],
+  ["What is a test plan?","A table showing what will be tested, the test data, the expected result, the actual result and any action taken."],
+  ["How would you identify a syntax error in testing?","The translator reports it and the program will not run."],
+  ["How would you identify a logic error in testing?","The program runs, but the actual result in testing does not match the expected result."],
+  ["Why test with boundary data?","Errors often occur at the edges of a range, e.g. using < instead of <=."],
+  ["Why is a password check limited to a number of attempts?","To prevent brute-force attacks where every combination is tried."]
+ ]},
+ {id:"2.4", comp:2, name:"Boolean logic", cards:[
+  ["Describe the AND gate.","Output is 1 only if both inputs are 1."],
+  ["Describe the OR gate.","Output is 1 if either or both inputs are 1."],
+  ["Describe the NOT gate.","It has one input and reverses it: 0 becomes 1 and 1 becomes 0."],
+  ["Describe the shape of each logic gate symbol.","AND: D shape (flat back, round front). OR: curved shield/arrow shape. NOT: triangle with a small circle at the output."],
+  ["Write the truth table for AND.","A B | Q: 0 0 | 0, 0 1 | 0, 1 0 | 0, 1 1 | 1."],
+  ["Write the truth table for OR.","A B | Q: 0 0 | 0, 0 1 | 1, 1 0 | 1, 1 1 | 1."],
+  ["Write the truth table for NOT.","A | Q: 0 | 1, 1 | 0."],
+  ["How many rows does a truth table with 2 inputs have? With 3?","2 inputs: 4 rows. 3 inputs: 8 rows (2 to the power of the number of inputs)."],
+  ["What is the output of NOT(1 AND 0)?","1 AND 0 = 0, NOT 0 = 1."],
+  ["What is the output of (1 OR 0) AND NOT 1?","1 OR 0 = 1. NOT 1 = 0. 1 AND 0 = 0."],
+  ["Complete Q = A AND NOT B for all inputs.","A B | Q: 0 0 | 0, 0 1 | 0, 1 0 | 1, 1 1 | 0."],
+  ["Complete Q = NOT(A OR B) for all inputs.","A B | Q: 0 0 | 1, 0 1 | 0, 1 0 | 0, 1 1 | 0."],
+  ["Write a logic expression for: an alarm sounds if the door is open AND the system is armed.","Q = D AND S."],
+  ["Write a logic expression for: a light comes on if it is dark AND (motion is detected OR a switch is pressed).","Q = D AND (M OR S)."],
+  ["Complete Q = (A AND B) OR C for A=0, B=1, C=1.","A AND B = 0. 0 OR 1 = 1. Q = 1."],
+  ["How many inputs does each gate take in J277?","AND: 2. OR: 2. NOT: 1."],
+  ["Why are logic gates used in computers?","They are made from transistors and combine binary signals to carry out processing. Combinations of gates build circuits such as adders and memory."],
+  ["Which symbols are sometimes used for AND, OR and NOT in expressions?","AND: ∧ or a dot. OR: ∨ or +. NOT: ¬ or a bar over the letter."],
+  ["Complete Q = NOT A OR B for all inputs.","A B | Q: 0 0 | 1, 0 1 | 1, 1 0 | 0, 1 1 | 1."],
+  ["Complete Q = (A OR B) AND NOT C for A=1, B=0, C=0.","A OR B = 1. NOT C = 1. 1 AND 1 = 1. Q = 1."]
+ ]},
+ {id:"2.5", comp:2, name:"Programming languages and IDEs", cards:[
+  ["What is a high-level language? Give an example.","A language that uses English-like keywords and is easier for humans to read and write, e.g. Python, Java, C#."],
+  ["What is a low-level language? Give examples.","A language close to what the CPU understands: machine code (binary) and assembly language."],
+  ["Give two advantages of high-level languages.","Any two: easier to read, write and debug; quicker to develop; portable across different types of CPU; one statement can do many machine instructions."],
+  ["Give two advantages of low-level languages.","Any two: direct control of hardware and memory; can be more efficient and faster; useful for embedded systems and device drivers."],
+  ["Why must programs be translated?","The CPU can only execute machine code (binary), so source code written in high-level or assembly language must be converted."],
+  ["What does a compiler do?","Translates the whole high-level program into machine code in one go, producing an executable file."],
+  ["What does an interpreter do?","Translates and runs the high-level program one line at a time, without producing an executable file."],
+  ["Give one advantage and one disadvantage of a compiler.","Advantage: compiled program runs fast and can be run without the translator or source code. Disadvantage: errors are reported only after the whole program is compiled, which can make debugging harder."],
+  ["Give one advantage and one disadvantage of an interpreter.","Advantage: stops at the line with the error, making debugging easier. Disadvantage: slower to run, and the interpreter is needed every time the program runs."],
+  ["Which translator would you use while developing and testing a program? Why?","An interpreter, because it stops at errors straight away and you can test without compiling the whole program each time."],
+  ["Which translator would you use to distribute a finished program? Why?","A compiler, because the executable runs quickly and users do not need the source code or translator."],
+  ["What is an assembler?","A translator that converts assembly language into machine code."],
+  ["What is an IDE?","An Integrated Development Environment: software that provides tools to help programmers write, run and debug code."],
+  ["Name four features of an IDE in J277.","Editor, error diagnostics, run-time environment, translators."],
+  ["How does the editor help programmers?","Allows code to be written and edited, often with syntax highlighting, auto-indentation, auto-complete and line numbers."],
+  ["How do error diagnostics help programmers?","They identify and highlight errors, give the line number and suggest what is wrong, making debugging faster."],
+  ["What is a run-time environment?","Lets the programmer run the program inside the IDE to test it and see output, often with tools such as breakpoints and stepping through code."],
+  ["What are breakpoints?","Points set in the code where the program will pause, so the programmer can check the values of variables at that moment."],
+  ["What is meant by 'translators' as an IDE feature?","The IDE includes a compiler and/or interpreter so the code can be translated and run without a separate program."],
+  ["Is machine code portable? Why?","No. Machine code is specific to a particular type of processor, so it will not run on a CPU with a different instruction set."]
  ]}
 ];
 
 const KEY="j277c1-v1";
+const COMPS=[{n:1,label:"Component 01 · Computer systems"},{n:2,label:"Component 02 · Computational thinking, algorithms and programming"}];
 let state={name:"",p:{}};
 let view="1.1", queue=[], showing=false, undo=[], confirmReset=false;
 
@@ -267,8 +392,9 @@ function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;
 
 function renderTabs(){
   const el=document.getElementById("tabs");
-  el.innerHTML=TOPICS.map(t=>{const s=stats(t);return `<button class="tab" data-v="${t.id}" aria-pressed="${view===t.id}"><span class="code">${t.id}</span><span class="mini">${s.r}/${s.total}</span></button>`}).join("")+
-   `<button class="tab report" data-v="report" aria-pressed="${view==="report"}"><span class="code">My progress</span><span class="mini">for Teams</span></button>`;
+  const btn=t=>{const s=stats(t);return `<button class="tab" data-v="${t.id}" aria-pressed="${view===t.id}"><span class="code">${t.id}</span><span class="mini">${s.r}/${s.total}</span></button>`};
+  el.innerHTML=COMPS.map(c=>`<div class="group"><div class="glabel">${c.label}</div><div class="tabs-row">${TOPICS.filter(t=>t.comp===c.n).map(btn).join("")}</div></div>`).join("")+
+   `<div class="group rep"><div class="glabel">Hand in</div><div class="tabs-row"><button class="tab report" data-v="report" aria-pressed="${view==="report"}"><span class="code">My progress</span><span class="mini">for Teams</span></button></div></div>`;
   el.querySelectorAll("button").forEach(b=>b.onclick=()=>{view=b.dataset.v;undo=[];confirmReset=false;if(view!=="report")buildQueue();render();});
 }
 
@@ -334,8 +460,9 @@ function level(s){
 function renderReport(){
   const main=document.getElementById("main");
   let T={total:0,r:0,n:0,u:0,miss:0};
-  const rows=TOPICS.map(t=>{const s=stats(t);for(const k in T)T[k]+=s[k];
-    return `<tr><td><b>${t.id}</b> ${esc(t.name)}</td><td style="min-width:110px">${barHTML(s)}</td><td class="num">${s.r}/${s.total}</td><td class="num">${s.n}</td><td class="num">${s.u}</td><td>${level(s)}</td></tr>`}).join("");
+  const CT={1:{total:0,r:0},2:{total:0,r:0}};
+  const rows=COMPS.map(c=>`<tr class="grp"><td colspan="6">${c.label}</td></tr>`+TOPICS.filter(t=>t.comp===c.n).map(t=>{const s=stats(t);for(const k in T)T[k]+=s[k];CT[c.n].total+=s.total;CT[c.n].r+=s.r;
+    return `<tr><td><b>${t.id}</b> ${esc(t.name)}</td><td style="min-width:110px">${barHTML(s)}</td><td class="num">${s.r}/${s.total}</td><td class="num">${s.n}</td><td class="num">${s.u}</td><td>${level(s)}</td></tr>`}).join("")).join("");
   const hard=[];
   TOPICS.forEach(t=>t.cards.forEach((c,i)=>{const s=state.p[cid(t.id,i)];if(s&&s.m)hard.push({t:t.id,q:c[0],m:s.m,still:s.s==="n"});}));
   hard.sort((a,b)=>(b.still-a.still)||(b.m-a.m));
@@ -344,9 +471,10 @@ function renderReport(){
   main.innerHTML=`<section style="display:flex;flex-direction:column;gap:14px">
    <div class="howto"><b>Handing in:</b><ol><li>Check your name and class are filled in at the top.</li><li>Take a screenshot of the sheet below (Windows: Win + Shift + S, Mac: Cmd + Shift + 4, Chromebook: Ctrl + Shift + Show windows).</li><li>Upload the screenshot to the Teams assignment.</li></ol></div>
    <div class="sheet">
-    <div class="sheet-head"><div><div class="eyebrow">J277 Component 01 progress</div><div class="who">${esc(state.name||"Name not entered")}</div></div><div class="eyebrow" style="align-self:flex-end">${d}</div></div>
+    <div class="sheet-head"><div><div class="eyebrow">J277 revision progress</div><div class="who">${esc(state.name||"Name not entered")}</div></div><div class="eyebrow" style="align-self:flex-end">${d}</div></div>
     <div class="overall">
-      <div class="stat"><b>${Math.round(T.r/T.total*100)}%</b><span>Remembered</span></div>
+      <div class="stat"><b>${Math.round(CT[1].r/CT[1].total*100)}%</b><span>Component 01</span></div>
+      <div class="stat"><b>${Math.round(CT[2].r/CT[2].total*100)}%</b><span>Component 02</span></div>
       <div class="stat"><b>${T.r}</b><span>of ${T.total} cards</span></div>
       <div class="stat"><b>${T.n}</b><span>Still not yet</span></div>
       <div class="stat"><b>${T.miss}</b><span>Total "not yet" taps</span></div>
